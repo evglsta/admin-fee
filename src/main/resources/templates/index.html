@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hitung Biaya Admin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <style>
+        body {
+            padding: 20px;
+        }
+		
+		table {
+			width: 50%;
+			border-collapse: separate;
+			border-spacing: 5px;
+		}
+
+        .marketplace-section {
+            margin-bottom: 30px;
+        }
+
+        .buttonRemoveCss {
+            background: none;
+            color: inherit;
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+        }
+
+        .row {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="marketplace-section">
+        <form th:action="@{/admin-fee/marketplace}" th:object="${adminFee}" method="post" enctype="multipart/form-data">
+            <h3 style="margin-bottom: 15px">Silahkan pilih marketplace</h3>
+            <button type="submit" class="buttonRemoveCss">
+                <input type="radio" id="shopee" name="marketplace" value="Shopee" th:field="*{marketplace}">
+                <label for="shopee">Shopee</label>
+            </button>
+
+            <br/>
+
+            <button type="submit" class="buttonRemoveCss">
+                <input type="radio" id="tokopedia" name="marketplace" value="Tokopedia" th:field="*{marketplace}">
+                <label for="tokopedia">Tokopedia</label>
+            </button>
+        </form>
+    </div>
+
+    <div class="form-section"/>
+        <form th:action="@{/admin-fee}" th:object="${adminFee}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{marketplace}" />
+            <div th:if="*{marketplace} != null">
+                <div th:if="*{marketplace} == 'Shopee'" class="shopee">
+                    <table cellpadding="10">
+                        <tr>
+                            <td>Biaya Admin</td>
+                            <td><input type="number" th:field="*{adminFeeShopee}" placeholder="Biaya Admin" step="0.1" min="0" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><button type="submit">Hitung</button></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div th:if="*{marketplace} == 'Tokopedia'" class="tokopedia">
+                    <table class="marketplaceTable">
+                        <tr>
+                            <td>Biaya Admin Merchant</td>
+                            <td><input type="number" th:field="*{adminFeeMerchant}" placeholder="Biaya Admin Merchant" step="0.1" min="0" /><td>
+                        </tr>
+                        <tr>
+                            <td>Biaya Admin Gratis Ongkir</td>
+                            <td><input type="number" th:field="*{adminFeeFreeOng}" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><button type="submit">Hitung</button></td>
+                        </tr>
+                    </table>
+                </div>
+				
+				<div style="margin-top:20px;margin-bottom:20px">
+					<button type="submit" th:nowrap="true" name="addPrice" id="addPrice">Tambah Harga</button>
+					<button type="submit" th:nowrap="true" name="reset" id="reset">Reset</button>
+				</div>
+				
+                <table class="table">
+                    <tr>
+                        <th class="row">Harga</th>
+                        <th class="row">Harga + Admin</th>
+                        <th class="row"></th>
+                    </tr>
+                    <tr th:each="price, rowStat : *{prices}">
+                        <td>
+                           <input type="number" th:field="*{prices[__${rowStat.index}__].price}" placeholder="Harga Barang" step="1" min="0" />
+                            <input type="submit" style="display: none" />
+                            <!--                            <button type="submit"><i class="bi bi-calculator"></i></button>-->
+                        </td>
+                        <td th:text="*{prices[__${rowStat.index}__].priceAfterAdmin}"></td>
+                        <td>
+                            <button th:if="${rowStat.index} != 0" type="submit" name="removePrice" id="removePrice" th:value="${rowStat.index}">Hapus</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
