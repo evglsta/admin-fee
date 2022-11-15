@@ -101,10 +101,11 @@
                     <tr th:each="price, rowStat : *{prices}">
                         <td>
                            <input type="number" th:field="*{prices[__${rowStat.index}__].price}" placeholder="Harga Barang" step="1" min="0" />
-                            <input type="submit" style="display: none" />
-                            <!--                            <button type="submit"><i class="bi bi-calculator"></i></button>-->
                         </td>
-                        <td th:text="*{prices[__${rowStat.index}__].priceAfterAdmin}"></td>
+                        <td>
+                            <input type="hidden" th:field="*{prices[__${rowStat.index}__].priceAfterAdmin}" />
+                            <label th:text="*{prices[__${rowStat.index}__].priceAfterAdmin}"></label>
+                        </td>
                         <td>
                             <button th:if="${rowStat.index} != 0" type="submit" name="removePrice" id="removePrice" th:value="${rowStat.index}">Hapus</button>
                         </td>

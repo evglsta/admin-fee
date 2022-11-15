@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +20,8 @@ public class AdminFeeController {
     @Autowired
     private AdminFeeService service;
 
-    AdminFee adminFee;
-
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, AdminFee adminFee) {
         if (adminFee == null) {
             adminFee = new AdminFee();
 
@@ -43,48 +41,49 @@ public class AdminFeeController {
     }
 
     @PostMapping(params = {"addPrice"})
-    public String addPrice(Model model) {
+    public String addPrice(AdminFee adminFee) {
         if (adminFee != null) {
             adminFee.getPrices().add(new Price());
         }
 
-        model.addAttribute("adminFee", adminFee);
         return "index";
     }
 
     @PostMapping(params = {"reset"})
-    public String reset(Model model) {
+    public String reset(AdminFee adminFee) {
         if (adminFee != null) {
+            adminFee.setAdminFeeShopee(0);
+            adminFee.setAdminFeeMerchant(0);
+            adminFee.setAdminFeeFreeOng(0);
+
             List<Price> prices = new ArrayList<>();
             prices.add(new Price());
             adminFee.setPrices(prices);
         }
 
-        model.addAttribute("adminFee", adminFee);
         return "index";
     }
 
     @PostMapping
-    public String count(@ModelAttribute AdminFee adminFee, Model model) {
-        this.adminFee = service.getPriceWithAdminFee(adminFee);
-        model.addAttribute("adminFee", this.adminFee);
+    public String count(@ModelAttribute AdminFee adminFee, BindingResult result, RedirectAttributes redirectAttributes) {
+        AdminFee newAdminFee = service.getPriceWithAdminFee(adminFee);
+        redirectAttributes.addFlashAttribute("adminFee", newAdminFee);
+
         return "redirect:/admin-fee";
     }
 
     @PostMapping(params = {"removePrice"})
-    public String removePrice(HttpServletRequest request, Model model) {
+    public String removePrice(AdminFee adminFee, HttpServletRequest request) {
         if (adminFee != null) {
             adminFee.getPrices().remove(Integer.parseInt(request.getParameter("removePrice")));
         }
 
-        model.addAttribute("adminFee", adminFee);
         return "index";
     }
 
     @PostMapping(path = "/marketplace")
-    public String getMarketplace(@ModelAttribute AdminFee adminFee, Model model) {
-        this.adminFee = adminFee;
-        model.addAttribute("adminFee", this.adminFee);
+    public String getMarketplace(@ModelAttribute AdminFee adminFee, BindingResult result, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("adminFee", adminFee);
         return "redirect:/admin-fee";
     }
 }
