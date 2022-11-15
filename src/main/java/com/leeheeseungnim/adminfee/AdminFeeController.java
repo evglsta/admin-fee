@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin-fee")
 public class AdminFeeController {
 
     @Autowired
@@ -69,7 +68,7 @@ public class AdminFeeController {
         AdminFee newAdminFee = service.getPriceWithAdminFee(adminFee);
         redirectAttributes.addFlashAttribute("adminFee", newAdminFee);
 
-        return "redirect:/admin-fee";
+        return "redirect:/";
     }
 
     @PostMapping(params = {"removePrice"})
@@ -84,6 +83,6 @@ public class AdminFeeController {
     @PostMapping(path = "/marketplace")
     public String getMarketplace(@ModelAttribute AdminFee adminFee, BindingResult result, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("adminFee", adminFee);
-        return "redirect:/admin-fee";
+        return "redirect:/";
     }
 }
