@@ -54,7 +54,7 @@
         padding: 8px;
         width: fit-content;
         margin: 15px 0;
-        font-size: 16px;
+        font-size: 18px;
         cursor: pointer;
       }
 
@@ -73,7 +73,7 @@
         border: none;
         border-radius: 8px;
         color: white;
-        font-size: 16px;
+        font-size: 18px;
         padding: 8px;
         width: 120px;
         box-shadow: 0px 10px 20px 0px #0b2fe12f;
@@ -84,8 +84,36 @@
         box-shadow: none;
       }
 
+      td {
+        font-size: 18px;
+      }
+
+      #addPrice {
+        width: fit-content;
+      }
+
+      .button-remove {
+        background-color: red;
+        box-shadow: 0px 10px 20px 0px rgba(255, 0, 0, 0.226);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 18px;
+        padding: 8px; 
+        width: 120px;
+      }
+
+      .button-remove:hover {
+        box-shadow: none;
+        background-color: rgb(231, 3, 3);
+      }
+
+      #removePrice {
+        width: 60px;
+      }
+
       .form-section {
-        font-size: 16px;
+        font-size: 18px;
       }
 
       .input-form {
@@ -100,8 +128,21 @@
         box-shadow: 0 0 5px #0b2fe12f;
       }
 
+      .button-container {
+        margin: 20px 0;
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+      }
+
+      .table {
+        border-radius: 8px;
+        box-shadow:  0px 10px 20px 0px rgba(177, 175, 175, 0.226);;
+      }
+
       .row {
         width: 200px;
+        border-top: none !important;
       }
 
       .footer {
@@ -177,7 +218,9 @@
               </tr>
               <tr>
                 <td></td>
-                <td><button type="submit" class="button-submit">Hitung</button></td>
+                <td>
+                  <button type="submit" class="button-submit">Hitung</button>
+                </td>
               </tr>
             </table>
           </div>
@@ -214,21 +257,30 @@
               </tr>
               <tr>
                 <td></td>
-                <td><button type="submit" class="button-submit">Hitung</button></td>
+                <td>
+                  <button type="submit" class="button-submit">Hitung</button>
+                </td>
               </tr>
             </table>
           </div>
 
-          <div style="margin-top: 20px; margin-bottom: 20px">
+          <div class="button-container">
             <button
               type="submit"
               th:nowrap="true"
               name="addPrice"
               id="addPrice"
+              class="button-submit"
             >
               Tambah Harga
             </button>
-            <button type="submit" th:nowrap="true" name="reset" id="reset">
+            <button
+              type="submit"
+              th:nowrap="true"
+              name="reset"
+              id="reset"
+              class="button-remove"
+            >
               Reset
             </button>
           </div>
@@ -247,6 +299,7 @@
                   placeholder="Harga Barang"
                   step="1"
                   min="0"
+                  class="input-form"
                 />
               </td>
               <td>
@@ -258,15 +311,16 @@
                   th:text="*{prices[__${rowStat.index}__].priceAfterAdmin}"
                 ></label>
               </td>
-              <td>
+              <td style="text-align: center;">
                 <button
                   th:if="${rowStat.index} != 0"
                   type="submit"
                   name="removePrice"
                   id="removePrice"
                   th:value="${rowStat.index}"
+                  class="button-remove"
                 >
-                  Hapus
+                  <i class="bi bi-trash-fill"></i>
                 </button>
               </td>
             </tr>
