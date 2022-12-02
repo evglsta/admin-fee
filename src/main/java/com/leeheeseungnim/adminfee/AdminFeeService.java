@@ -78,12 +78,8 @@ public class AdminFeeService {
         List<Price> prices = adminFee.getPrices();
         for (int i = 0; i < prices.size(); i++) {
             Price price = prices.get(i);
-            System.out.println(1 - fixedAdminPercentageTiktokShop);
 
             float priceAfterAdminFee = (price.getPrice() + fixedAdminTiktokShop) / (1 - fixedAdminPercentageTiktokShop);
-
-
-
             price.setPriceAfterAdmin(PriceUtil.formatPrice(Math.round(priceAfterAdminFee)));
             prices.set(i, price);
         }
