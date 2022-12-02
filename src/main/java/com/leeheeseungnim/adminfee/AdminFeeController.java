@@ -82,6 +82,14 @@ public class AdminFeeController {
 
     @PostMapping(path = "/marketplace")
     public String getMarketplace(@ModelAttribute AdminFee adminFee, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (adminFee == null) {
+            adminFee = new AdminFee();
+
+            List<Price> prices = new ArrayList<>();
+            prices.add(new Price());
+            adminFee.setPrices(prices);
+        }
+
         redirectAttributes.addFlashAttribute("adminFee", adminFee);
         return "redirect:/";
     }
