@@ -4,7 +4,6 @@ import com.leeheeseungnim.adminfee.entity.AdminFee;
 import com.leeheeseungnim.adminfee.entity.Price;
 import com.leeheeseungnim.adminfee.enumerator.MarketplaceEnum;
 import com.leeheeseungnim.adminfee.util.PriceUtil;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,7 +42,7 @@ public class AdminFeeService {
         return adminFee;
     }
 
-    public AdminFee getPriceTokopedia(@NotNull AdminFee adminFee) {
+    public AdminFee getPriceTokopedia(AdminFee adminFee) {
         List<Price> prices = adminFee.getPrices();
         for (int i = 0; i < prices.size(); i++) {
             Price price = prices.get(i);
