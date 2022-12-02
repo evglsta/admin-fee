@@ -188,6 +188,17 @@
             />
             <label for="tokopedia">Tokopedia</label>
           </div>
+
+          <div class="radio-button-container">
+            <input
+                    type="radio"
+                    id="tiktok-shop"
+                    name="marketplace"
+                    value="Tiktok Shop"
+                    th:field="*{marketplace}"
+            />
+            <label for="tiktok-shop">Tiktok Shop</label>
+          </div>
         </div>
 
         <button class="button-submit" type="submit">Pilih</button>
@@ -266,6 +277,8 @@
             </table>
           </div>
 
+
+
           <div class="button-container">
             <button
               type="submit"
@@ -285,6 +298,10 @@
             >
               Reset
             </button>
+
+            <div th:if="*{marketplace} == 'Tiktok Shop'" class="tiktop-shop">
+              <button type="submit" class="button-submit">Hitung</button>
+            </div>
           </div>
 
           <table class="table">
